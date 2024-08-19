@@ -9,6 +9,8 @@ import userRouter from './routes/userRoutes.js'
 import adminRouter from './routes/adminRoutes.js'
 import reviewRouter from './routes/reviewRoutes.js'
 import movieRouter from './routes/movieRoutes.js'
+import rateRouter from './routes/rateRoutes.js'
+//import rateRouter from './routes/rateRoutes.js'
 import { connectDB } from "./db.js";
 import serverconfig from "./config/serverConfig.js";
 import  apiRouter  from "./routes/apiRoutes.js";
@@ -43,6 +45,7 @@ app.use("/v1/user",userRouter)
 app.use("/v1/admin",adminRouter)
 app.use("/v1/review",reviewRouter)
 app.use("/v1/movie",movieRouter)
+app.use("/v1/rate",rateRouter)
 
 
 

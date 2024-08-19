@@ -19,13 +19,13 @@ const getMovie = async(req,res)=>{
     if(!req.file) {
     return res.send("file is not visible")
     }
-    const result ={
-      public:"id",
-      url:"urlstring",
+   // const result ={
+      //public:"id",
+      //url:"urlstring",
     
 
-    }
-    result.url
+   // }
+    //result.url
     cloudinaryInstance.uploader.upload(req.file.path, async (err, result) => {
       if (err) {
         console.log(err, "error");
@@ -41,7 +41,7 @@ const getMovie = async(req,res)=>{
 
       const { title, director, rating, genre } = body;
 
-      const findMovie = await Movie.findOne({ movie: 1 });
+      const findMovie = await Movie.findOne({ _id: req.params.id });
 
       if (!findMovie) {
         return res.send("please add movie first");
@@ -51,7 +51,7 @@ const getMovie = async(req,res)=>{
         title,
         director,
         rating,
-        genre: genre._id,
+        genre,
         image: imageUrl,
       });
       
@@ -119,45 +119,9 @@ const updateMovie = async(req,res)=>{
     }
 };
 
-const getReview = async (req, res) => {
-    try {
-      const { review } = req.body;
-      const { name } = req.params;
-      const user = req.user;
+
+        
   
-      if (!user) {
-        return res.json({ status: 401, msg: 'Please Login First !' });
-      }
-  
-      const movie = await Movie.findOne({ title: name });
-  
-      if (!movie) {
-        return res.json({ status: 400, msg: 'Movie Not Found' });
-      }
-  
-      const newReview = {
-        author: user.username,
-        body: review,
-        avatar: user.avatar,
-        date: Date.now(),
-      };
-  
-      let reviewed = movie.reviews.find(review => review.author === user.username);
-  
-      if (!reviewed) {
-        movie.reviews.push(newReview);
-      } else {
-        const index = movie.reviews.indexOf(reviewed);
-        movie.reviews[index].body = review;
-      }
-  
-      await movie.save();
-  
-      res.json({ status: 200, msg: 'Reviewed Successfully' });
-    } catch (err) {
-      res.status(500).json({ message: err.toString() });
-    }
-  };
   
   //export {getMovie,createMovie,addMovie,deleteMovie,getReview,updateMovie};
-  export {getMovie,createMovie,addMovie,deleteMovie,getReview,updateMovie};
+  export {getMovie,createMovie,addMovie,deleteMovie,updateMovie};
